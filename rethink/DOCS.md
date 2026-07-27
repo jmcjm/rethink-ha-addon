@@ -49,15 +49,35 @@ the host. rethink advertises this port to devices dynamically, so any free port 
 ### Migrating from an existing rethink instance
 
 1. Install the add-on but do not start it yet.
-2. Copy `ca.key`, `ca.cert` and `state/` into `/addon_configs/<slug>_rethink/`
-   (Samba/SSH add-on or the Studio Code Server add-on will do).
-3. In the Configuration tab set **`hostname` to the CN of your existing `ca.cert`**
+2. Bring over your CA — two ways:
+   - **UI only:** in the Configuration tab (three-dot menu → Edit in YAML) paste the
+     contents of your existing files into `ca_key_pem` and `ca_cert_pem` as YAML
+     block scalars:
+
+     ```yaml
+     ca_key_pem: |
+       -----BEGIN PRIVATE KEY-----
+       ...
+     ca_cert_pem: |
+       -----BEGIN CERTIFICATE-----
+       ...
+     ```
+
+     On start the add-on writes them to `ca.key` / `ca.cert`. While these options
+     are set they overwrite the files on every start; you can clear them afterwards
+     — the files stay.
+   - **Files:** copy `ca.key` and `ca.cert` into `/addon_configs/<slug>_rethink/`
+     (Samba/SSH add-on or the Studio Code Server add-on).
+3. If you used bridge mode (ThinQ app access via the real LG cloud), also copy your
+   `state/` directory the file way — it cannot be pasted through the UI. Without it
+   devices still connect locally; only the bridge registrations are lost.
+4. In the Configuration tab set **`hostname` to the CN of your existing `ca.cert`**
    (for old installs this is typically the LAN IP the devices were provisioned
    against). If the hostname stops matching the certificate, the server generates a
    fresh CA and every LG device has to be re-provisioned through its SoftAP.
-4. Point `mqtt_url` at the local broker (e.g. `mqtt://localhost:1883`) and fill in
+5. Point `mqtt_url` at the local broker (e.g. `mqtt://localhost:1883`) and fill in
    `mqtt_user` / `mqtt_pass`.
-5. Start the add-on and watch the log; devices should reconnect within a minute or
+6. Start the add-on and watch the log; devices should reconnect within a minute or
    two of their next DNS lookup.
 
 ## Notes
