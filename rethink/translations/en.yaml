@@ -1,0 +1,61 @@
+configuration:
+  hostname:
+    name: Hostname
+    description: >-
+      Name embedded in the CA certificate (its CN). Fresh installs can keep the
+      default. When migrating, set this to the CN of your existing certificate —
+      a mismatch regenerates the CA and forces re-provisioning of every LG device.
+  mqtt_url:
+    name: MQTT broker URL
+    description: >-
+      Home Assistant MQTT broker used for discovery and entity state, e.g.
+      mqtt://localhost:1883 for the Mosquitto add-on.
+  mqtt_user:
+    name: MQTT username
+    description: Username for the MQTT broker (a Home Assistant user when using the Mosquitto add-on).
+  mqtt_pass:
+    name: MQTT password
+    description: Password for the MQTT broker.
+  discovery_prefix:
+    name: Discovery prefix
+    description: MQTT discovery prefix — must match the one configured in the Home Assistant MQTT integration (default homeassistant).
+  rethink_prefix:
+    name: ReThink topic prefix
+    description: Prefix for rethink's own MQTT topics.
+  https_port:
+    name: HTTPS port
+    description: ThinQ2 API port. LG devices have 443 hard-coded — do not change unless you redirect traffic externally.
+  mqtts_port:
+    name: MQTTS port
+    description: >-
+      TLS MQTT port the devices connect to. Advertised to devices dynamically, so
+      any free port works. Default 8884 avoids the Mosquitto add-on's 8883.
+  mqtt_port:
+    name: Local MQTT port
+    description: Plain MQTT listener of rethink's internal broker — useful for packet debugging with mosquitto_sub.
+  management_port:
+    name: Management panel port
+    description: Web panel with device status and bridge controls, http://<host>:<port>.
+  thinq1_https_port:
+    name: ThinQ1 HTTPS port
+    description: Only used by ThinQ1-generation devices. Leave default.
+  thinq1_port:
+    name: ThinQ1 plain port
+    description: Only used by ThinQ1-generation devices. Leave default.
+  log:
+    name: Log topics
+    description: Which log categories to print (all enables everything).
+  manual_config:
+    name: Manual config.json
+    description: >-
+      When enabled the add-on never regenerates config.json — edit it yourself in
+      the add-on configuration directory. Use for options the UI does not expose,
+      like split bind/advertise ports.
+  ca_key_pem:
+    name: CA private key (PEM, migration)
+    description: >-
+      Optional. Paste the contents of an existing ca.key to migrate without file
+      access. Written to ca.key on every start while set — clear afterwards.
+  ca_cert_pem:
+    name: CA certificate (PEM, migration)
+    description: Optional. Paste the contents of an existing ca.cert. Written to ca.cert on every start while set.

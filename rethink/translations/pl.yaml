@@ -1,0 +1,64 @@
+configuration:
+  hostname:
+    name: Nazwa hosta
+    description: >-
+      Nazwa wpisana w certyfikat CA (jego CN). Przy świeżej instalacji zostaw
+      domyślną. Przy migracji ustaw CN istniejącego certyfikatu — niezgodność
+      powoduje regenerację CA i konieczność ponownego provisioningu wszystkich
+      urządzeń LG.
+  mqtt_url:
+    name: Adres brokera MQTT
+    description: >-
+      Broker MQTT Home Assistanta używany do discovery i stanów encji, np.
+      mqtt://localhost:1883 dla dodatku Mosquitto.
+  mqtt_user:
+    name: Użytkownik MQTT
+    description: Użytkownik brokera MQTT (przy dodatku Mosquitto — użytkownik Home Assistanta).
+  mqtt_pass:
+    name: Hasło MQTT
+    description: Hasło do brokera MQTT.
+  discovery_prefix:
+    name: Prefiks discovery
+    description: Prefiks MQTT discovery — musi się zgadzać z konfiguracją integracji MQTT w Home Assistant (domyślnie homeassistant).
+  rethink_prefix:
+    name: Prefiks tematów ReThink
+    description: Prefiks własnych tematów MQTT rethinka.
+  https_port:
+    name: Port HTTPS
+    description: Port API ThinQ2. Urządzenia LG mają zaszyte 443 — nie zmieniaj, chyba że przekierowujesz ruch zewnętrznie.
+  mqtts_port:
+    name: Port MQTTS
+    description: >-
+      Port TLS MQTT, na który łączą się urządzenia. Ogłaszany urządzeniom
+      dynamicznie, więc zadziała dowolny wolny port. Domyślne 8884 omija 8883
+      zajęte przez dodatek Mosquitto.
+  mqtt_port:
+    name: Lokalny port MQTT
+    description: Nieszyfrowany listener wewnętrznego brokera rethinka — przydatny do debugowania pakietów przez mosquitto_sub.
+  management_port:
+    name: Port panelu zarządzania
+    description: Panel WWW ze statusem urządzeń i kontrolą bridge, http://<host>:<port>.
+  thinq1_https_port:
+    name: Port HTTPS ThinQ1
+    description: Używany tylko przez urządzenia generacji ThinQ1. Zostaw domyślny.
+  thinq1_port:
+    name: Port ThinQ1
+    description: Używany tylko przez urządzenia generacji ThinQ1. Zostaw domyślny.
+  log:
+    name: Kategorie logów
+    description: Które kategorie logów wypisywać (all włącza wszystkie).
+  manual_config:
+    name: Ręczny config.json
+    description: >-
+      Po włączeniu dodatek nie generuje config.json — edytujesz go samodzielnie
+      w katalogu konfiguracji dodatku. Do opcji niedostępnych w UI, np.
+      rozdzielonych portów bind/advertise.
+  ca_key_pem:
+    name: Klucz prywatny CA (PEM, migracja)
+    description: >-
+      Opcjonalne. Wklej zawartość istniejącego ca.key, żeby zmigrować bez dostępu
+      do plików. Zapisywany do ca.key przy każdym starcie, dopóki ustawione —
+      potem wyczyść.
+  ca_cert_pem:
+    name: Certyfikat CA (PEM, migracja)
+    description: Opcjonalne. Wklej zawartość istniejącego ca.cert. Zapisywany do ca.cert przy każdym starcie, dopóki ustawione.
