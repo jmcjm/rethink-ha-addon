@@ -10,7 +10,7 @@ RUN apk add --no-cache nodejs npm git
 # jmcjm/rethink `deploy` branch: upstream master + RH90V9_WW dryer handler
 # + Y_V8_Y___W.B32QEUK EU washer extensions. Bump on every add-on update.
 ARG RETHINK_REPO=https://github.com/jmcjm/rethink.git
-ARG RETHINK_REV=e7d0c518d92df74e23223559ece683a49fa3e310
+ARG RETHINK_REV=e1dce98c11baff169cfce664c29f85eb371cbe6f
 
 RUN git clone "$RETHINK_REPO" /src \
     && git -C /src checkout "$RETHINK_REV"
