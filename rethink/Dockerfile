@@ -1,3 +1,7 @@
+# BUILD_FROM must be declared before the first FROM — args declared between stages
+# belong to the preceding stage and are invisible to FROM instructions.
+ARG BUILD_FROM
+
 # Build stage: compile rethink from the pinned fork revision
 FROM alpine:3.21 AS build
 
@@ -17,7 +21,6 @@ RUN npm ci --ignore-scripts \
     && npm prune --omit=dev
 
 # Runtime stage: Home Assistant base image (s6 entrypoint disabled via init: false)
-ARG BUILD_FROM
 FROM $BUILD_FROM
 
 RUN apk add --no-cache nodejs openssl
