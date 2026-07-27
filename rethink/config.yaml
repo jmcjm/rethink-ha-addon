@@ -1,5 +1,5 @@
 name: ReThink Cloud (unofficial)
-version: "2026.7.2"
+version: "2026.7.3"
 slug: rethink
 description: Fully-local cloud server for LG ThinQ devices — unofficial fork build (jmcjm/rethink)
 url: https://github.com/jmcjm/rethink-ha-addon
@@ -13,3 +13,37 @@ host_network: true
 map:
   - type: addon_config
     read_only: false
+options:
+  hostname: rethink.lan
+  mqtt_url: mqtt://localhost:1883
+  mqtt_user: ""
+  mqtt_pass: ""
+  discovery_prefix: homeassistant
+  rethink_prefix: rethink
+  https_port: 443
+  mqtts_port: 8884
+  mqtt_port: 1884
+  management_port: 44401
+  thinq1_https_port: 46030
+  thinq1_port: 47878
+  log:
+    - status
+    - incoming
+    - HTTPS
+  manual_config: false
+schema:
+  hostname: str
+  mqtt_url: str
+  mqtt_user: str
+  mqtt_pass: password
+  discovery_prefix: str
+  rethink_prefix: str
+  https_port: port
+  mqtts_port: port
+  mqtt_port: port
+  management_port: port
+  thinq1_https_port: port
+  thinq1_port: port
+  log:
+    - list(all|status|incoming|HTTPS|publish|MGMT|bridge|connected|close|offline|reconnect)
+  manual_config: bool

@@ -23,13 +23,14 @@ RUN npm ci --ignore-scripts \
 # Runtime stage: Home Assistant base image (s6 entrypoint disabled via init: false)
 FROM $BUILD_FROM
 
-RUN apk add --no-cache nodejs openssl
+RUN apk add --no-cache nodejs openssl jq
 
 WORKDIR /app
 COPY --from=build /src/package.json /src/package-lock.json ./
 COPY --from=build /src/node_modules ./node_modules
 COPY --from=build /src/dist ./dist
-COPY --from=build /src/config.jsonc /app/default-config.json
+COPY run.sh /app/run.sh
+RUN chmod +x /app/run.sh
 
 ENTRYPOINT []
-CMD ["sh", "-c", "[ -f /config/config.json ] || cp /app/default-config.json /config/config.json; exec node /app/dist/rethink-cloud.js /config/config.json"]
+CMD ["/app/run.sh"]

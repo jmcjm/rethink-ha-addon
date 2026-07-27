@@ -25,30 +25,38 @@ The management panel is available at `http://<ha-host>:44401`.
 
 ## Configuration
 
-All state lives in the add-on configuration directory
-(`/addon_configs/<slug>_rethink/`), which maps to `/config` inside the container:
+Everything routine is configured from the add-on's **Configuration tab**: hostname,
+MQTT broker URL and credentials, discovery/rethink prefixes, all ports, and log
+topics. On every start the add-on regenerates `config.json` from these options.
+
+Set `manual_config: true` if you need config features the UI does not expose (e.g.
+split `bind`/`advertise` ports) — the add-on then leaves `config.json` alone and you
+edit it by hand in the configuration directory.
+
+Files in the add-on configuration directory
+(`/addon_configs/<slug>_rethink/`, mapped to `/config` inside the container):
 
 ```
-config.json   main configuration
+config.json   generated from the UI options (or hand-written with manual_config)
 ca.key        CA private key   — losing this forces re-provisioning of all devices
 ca.cert       CA certificate
 state/        bridge state (oauth2 token, device registrations)
 ```
 
-On first start a default `config.json` is created. Edit it and restart the add-on.
+`mqtts_port` defaults to 8884 because the Mosquitto add-on usually occupies 8883 on
+the host. rethink advertises this port to devices dynamically, so any free port works.
 
 ### Migrating from an existing rethink instance
 
 1. Install the add-on but do not start it yet.
-2. Copy your entire data directory (`config.json`, `ca.key`, `ca.cert`, `state/`)
-   into `/addon_configs/<slug>_rethink/` (Samba/SSH add-on or the Studio Code Server
-   add-on will do).
-3. **Do not change `hostname`** in `config.json` — it must keep matching the CN of
-   the existing `ca.cert`, otherwise the server generates a fresh CA and every LG
-   device has to be re-provisioned through its SoftAP.
-4. Point `homeassistant.mqtt_url` at the local broker, e.g.
-   `mqtt://localhost:1883`, and put the broker credentials into
-   `homeassistant.mqtt_user` / `homeassistant.mqtt_pass`.
+2. Copy `ca.key`, `ca.cert` and `state/` into `/addon_configs/<slug>_rethink/`
+   (Samba/SSH add-on or the Studio Code Server add-on will do).
+3. In the Configuration tab set **`hostname` to the CN of your existing `ca.cert`**
+   (for old installs this is typically the LAN IP the devices were provisioned
+   against). If the hostname stops matching the certificate, the server generates a
+   fresh CA and every LG device has to be re-provisioned through its SoftAP.
+4. Point `mqtt_url` at the local broker (e.g. `mqtt://localhost:1883`) and fill in
+   `mqtt_user` / `mqtt_pass`.
 5. Start the add-on and watch the log; devices should reconnect within a minute or
    two of their next DNS lookup.
 
