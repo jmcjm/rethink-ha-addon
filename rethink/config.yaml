@@ -1,0 +1,15 @@
+name: ReThink Cloud (unofficial)
+version: "2026.7.1"
+slug: rethink
+description: Fully-local cloud server for LG ThinQ devices — unofficial fork build (jmcjm/rethink)
+url: https://github.com/jmcjm/rethink-ha-addon
+arch:
+  - amd64
+  - aarch64
+startup: services
+boot: manual
+init: false
+host_network: true
+map:
+  - type: addon_config
+    read_only: false
